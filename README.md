@@ -11,5 +11,5 @@ git clone https://github.com/mowtwo/reactivity_Gobang
 ```
 
 下载完成后直接启动就行
-由于代码直接使用原生的 ESM 模块，所以请一定要启动一个静态资源服务
-本项目对浏览器版本要求较高
+由于代码直接使用原生的 ESM 模块，所以请一定要启动一个静态资源服务  
+<span style="color:red">本项目对浏览器版本要求较高</span>
