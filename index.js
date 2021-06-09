@@ -1,4 +1,4 @@
-import { blackList, init, whiteList } from './libs/Game.js'
+import { blackList, gameConfig, init, whiteList } from './libs/Game.js'
 
 window['mowDevtools'] = {
   testPushChess(X, Y, mainUser = true) {
@@ -13,6 +13,11 @@ window['mowDevtools'] = {
         Y,
       })
     }
+  },
+  gameover() {
+    gameConfig.Update({
+      gameover: true,
+    })
   },
 }
 

@@ -2,7 +2,7 @@ import { BaseVec2, Vec2List } from './Vec2.js'
 import { initConfig } from './Config.js'
 import { getRenderPosition, getRenderSize } from './Utils.js'
 import { getFps, updateTime } from './Time.js'
-import { canvasMouseMove, canvasMouseUp } from './Events.js'
+import { canvasMouseMove, canvasMouseUp, documentEnter } from './Events.js'
 
 export const gameConfig = initConfig(document.querySelector('#canvas'))
 export const blackList = Vec2List(0)
@@ -13,15 +13,27 @@ export function init() {
   canvas.height = getRenderSize()
   canvas.style.boxShadow = boxShadow
   cursorPosition.move(Math.floor(size / 2), Math.floor(size / 2))
+  gameConfig.Update({
+    chessMap: {
+      black: blackList.List,
+      white: whiteList.List,
+    },
+  })
   requestAnimationFrame(update)
   canvas.addEventListener('mousemove', canvasMouseMove)
   canvas.addEventListener('mouseup', canvasMouseUp)
 }
-
-function update(step) {
+let frameHandle = null
+function update() {
+  const { gameover } = gameConfig.Value
+  // console.log(frameHandle)
+  if (gameover && frameHandle != null) {
+    gameAllPause()
+    return cancelAnimationFrame(frameHandle)
+  }
   updateTime(Date.now())
   draw()
-  requestAnimationFrame(update)
+  frameHandle = requestAnimationFrame(update)
 }
 
 /**
@@ -116,4 +128,42 @@ function drawFps() {
   const fps = getFps()
   context.fillStyle = '#000'
   context.fillText(`fps:${fps}`, 10, 10)
+}
+
+function gameAllPause() {
+  const { context, baseUnit, victory, canvas } = gameConfig.Value
+  const padding = baseUnit * 2
+  const pausePanelSize = getRenderSize() - padding * 2
+  context.save()
+  context.fillStyle = '#aaa'
+  context.fillRect(padding + 10, padding + 10, pausePanelSize, pausePanelSize)
+  context.fillStyle = '#fff'
+  context.fillRect(padding, padding, pausePanelSize, pausePanelSize)
+  context.strokeStyle = '#000'
+  context.lineWidth = 1
+  context.strokeRect(padding, padding, pausePanelSize, pausePanelSize)
+  context.strokeStyle = '#aaa'
+  context.strokeRect(
+    padding * 2,
+    padding * 2,
+    pausePanelSize - padding * 2,
+    pausePanelSize - padding * 2,
+  )
+  context.textBaseline = 'middle'
+  context.textAlign = 'center'
+  context.font = '50px bold'
+  context.fillStyle = '#aaa'
+  context.fillText('游戏结束', getRenderSize() / 2, padding * 3)
+  context.font = '30px normal'
+  context.fillText(
+    `${victory ? `胜者为:${victory}` : '结局为平手'}`,
+    getRenderSize() / 2,
+    padding * 5,
+  )
+  context.font = '16px normal'
+  context.fillText('按下enter以重开', getRenderSize() / 2, padding * 7)
+  context.restore()
+  canvas.removeEventListener('mousemove', canvasMouseMove)
+  canvas.removeEventListener('mouseup', canvasMouseUp)
+  document.addEventListener('keyup', documentEnter)
 }

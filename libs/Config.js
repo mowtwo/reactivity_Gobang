@@ -1,4 +1,4 @@
-import { Vec2 } from './Vec2.js'
+import { BaseVec2, Vec2 } from './Vec2.js'
 
 const config = {
   baseUnit: 40, //单位，默认为px
@@ -20,6 +20,22 @@ const config = {
   cursorColor: '#f00',
   showCursor: true,
   onMainUser: true,
+  gameover: false,
+  victory: null,
+  /**
+   * @type {Record<'black'|'white',BaseVec2[]>}
+   */
+  chessMap: {
+    black: [],
+    white: [],
+  },
+  get currentJudgeList() {
+    if (this.onMainUser) {
+      return this.chessMap.black
+    } else {
+      return this.chessMap.white
+    }
+  },
 }
 
 /**

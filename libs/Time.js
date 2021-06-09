@@ -6,7 +6,6 @@ const saveTimeData = {
     return this.nextTime - this.lastTime
   },
   get fps() {
-    // console.log(this.timeStep)
     return 1 / (this.timeStep / 1000)
   },
 }

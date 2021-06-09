@@ -74,23 +74,7 @@ export function Vec2List(size) {
         return 1
       },
     ) {
-      if (list.length > 1) {
-        for (let i = 0; i < list.length - 1; i++) {
-          for (let j = i + 1; j < list.length; j++) {
-            const item1 = list[i]
-            const item2 = list[j]
-            const sortResult = sortMethod(item1, item2)
-            if (sortResult > 0) {
-              const temp = {
-                X: item1.X,
-                Y: item2.Y,
-              }
-              item1.move(item2.X, item2.Y)
-              item2.move(temp.X, temp.Y)
-            }
-          }
-        }
-      }
+      list.sort(sortMethod)
       return this
     },
     /**
@@ -98,7 +82,6 @@ export function Vec2List(size) {
      */
     Push(item) {
       list.push(new Vec2(item.X, item.Y))
-      console.log(list, item)
       return this
     },
     /**
@@ -118,6 +101,10 @@ export function Vec2List(size) {
      */
     Has(item) {
       return list.some((findItem) => findItem.equal(item))
+    },
+    Clear() {
+      list.splice(0, list.length)
+      return this
     },
   }
 }
