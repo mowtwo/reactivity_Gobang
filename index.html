@@ -8,6 +8,9 @@
   </head>
   <body>
     <canvas id="canvas"></canvas>
+    <button onclick="mowDevtools.gameRestore()">重置</button>
+    <select id="configMapper"></select>
+    <button id="debugPrint">搜索</button>
     <script type="module">
       import { run } from './index.js'
       run()

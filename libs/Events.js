@@ -31,9 +31,9 @@ export function canvasMouseUp(e) {
     return
   }
   if (onMainUser) {
-    blackList.Push(cursorPosition.toBaseVec2()).Sort(sortList)
+    blackList.Push(cursorPosition.toBaseVec2())
   } else {
-    whiteList.Push(cursorPosition.toBaseVec2()).Sort(sortList)
+    whiteList.Push(cursorPosition.toBaseVec2())
   }
   gameJudge()
   gameConfig.Update({
@@ -59,7 +59,7 @@ function hasChess(vec2) {
   return blackList.Has(vec2) || whiteList.Has(vec2)
 }
 
-function restoreGame() {
+export function restoreGame() {
   blackList.Clear()
   whiteList.Clear()
   gameConfig.Update({
@@ -92,6 +92,5 @@ function sortList(item1, item2) {
 }
 
 function gameJudge() {
-  const { currentJudgeList } = gameConfig.Value
-  console.log(currentJudgeList)
+ 
 }

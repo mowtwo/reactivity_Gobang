@@ -36,6 +36,7 @@ const config = {
       return this.chessMap.white
     }
   },
+  victoryChessCount: 5,
 }
 
 /**

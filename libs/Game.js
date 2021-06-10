@@ -15,8 +15,12 @@ export function init() {
   cursorPosition.move(Math.floor(size / 2), Math.floor(size / 2))
   gameConfig.Update({
     chessMap: {
-      black: blackList.List,
-      white: whiteList.List,
+      get black() {
+        return blackList.List
+      },
+      get white() {
+        return whiteList.List
+      },
     },
   })
   requestAnimationFrame(update)
@@ -52,7 +56,7 @@ function draw(step) {
 }
 
 function drawLine() {
-  const { lineColor, lineWidth, size, context, offset } = gameConfig.Value
+  const { lineColor, lineWidth, size, context } = gameConfig.Value
   context.strokeStyle = lineColor
   context.lineWidth = lineWidth
   for (let vertical = 0; vertical < size + 1; vertical++) {
@@ -104,7 +108,6 @@ function drawFloatCursor(step) {
   const {
     context,
     baseUnit,
-    offset,
     cursorColor,
     cursorPosition,
     showCursor,
